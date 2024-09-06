@@ -14,4 +14,13 @@ int main() {
 
     for (int i = 0; i < split.length; i++)
         printf("string %d: \"%s\"\n", i, split.substrings[i]);
+
+    free(split.substrings);
+
+    char str2[] = "int 0 = 0;\nauto 1 = \"hello\";\nbool 2 = false;";
+
+    split = SplitString(str2, '\n');
+
+    for (int i = 0; i < split.length; i++)
+        printf("string %d: \"%s\"\n", i, split.substrings[i]);
 }

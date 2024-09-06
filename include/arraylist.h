@@ -48,7 +48,7 @@ void* ALRemove(Arraylist* al) {
         return v;
     }
     return 0;
-};
+}
 
 /*
 Adds an item to the head of the arraylist
