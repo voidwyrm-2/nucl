@@ -71,6 +71,18 @@ void ALAdd(Arraylist* al, void* value) {
 }
 
 /*
+Gets the item at the specified index
+*/
+void* ALGetIndex(Arraylist* al, int index) { return al->arr[index]; }
+
+/*
+Sets the item at the specified index to the given value
+*/
+void ALSetIndex(Arraylist* al, void* value, int index) {
+    al->arr[index] = value;
+}
+
+/*
 Gets the arraylist's length
 */
 int ALLen(Arraylist* al) { return al->len; }

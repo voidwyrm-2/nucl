@@ -62,9 +62,9 @@ int main() {
         printf("a, b: '%s', '%s'\n", *(char**)ALRemove(&arrl), b_2);
 
         printf("cap: %d, length: %d\n", ALCap(&arrl), ALLen(&arrl));
-
-        FreeArraylist(&arrl);
     }
+
+    FreeArraylist(&arrl);
 
     return 0;
 }
