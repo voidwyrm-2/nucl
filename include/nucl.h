@@ -1,4 +1,4 @@
 #pragma once
 
 #include "arraylist.h"
-#include "nstrings.h"
+#include "ncstrings.h"
