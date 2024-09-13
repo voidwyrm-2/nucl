@@ -1,6 +1,6 @@
 #! /bin/sh
 
-if ! [ -f "./build" ]; then
+if ! [ -d "./build" ]; then
     mkdir "build"
 fi
 
@@ -18,7 +18,16 @@ if [ -f "build/$1" ]; then
     rm build/"$1"
 fi
 
-gcc "$1.c" -o "build/$1"
+isgcc="no"
+case "$(type gcc)" in "gcc is"*)
+    isgcc="yes"
+esac
+
+if [ isgcc = "yes" ]; then
+    gcc "$1.c" -o "build/$1"
+else
+    clang $1.c -o build/$1
+fi
 
 if [ -f "build/$1" ]; then
     ./build/"$1"

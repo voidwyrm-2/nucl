@@ -10,9 +10,9 @@ int main() {
 
     Substrings split = SplitString(str, ' ');
 
-    printf("length: %d\n", split.length);
+    printf("length: %d\n", split.count);
 
-    for (int i = 0; i < split.length; i++)
+    for (int i = 0; i < split.count; i++)
         printf("string %d: \"%s\"\n", i, split.substrings[i]);
 
     free(split.substrings);
@@ -21,6 +21,13 @@ int main() {
 
     split = SplitString(str2, '\n');
 
-    for (int i = 0; i < split.length; i++)
+    for (int i = 0; i < split.count; i++)
+        printf("string %d: \"%s\"\n", i, split.substrings[i]);
+
+    char str3[] = "hello";
+
+    split = SplitString(str3, ' ');
+
+    for (int i = 0; i < split.count; i++)
         printf("string %d: \"%s\"\n", i, split.substrings[i]);
 }

@@ -10,6 +10,7 @@ typedef struct Arraylist {
     void** arr;
     int cap;
     int len;
+    char truncOpti;
 } Arraylist;
 
 /*
@@ -18,7 +19,7 @@ Creates a new arraylist of the specified size
 Arraylist NewArraylist(int size) {
     // allocate new underlying array
     void** a = (void**)malloc(sizeof(int) * size);
-    Arraylist al = {.arr = a, .cap = size, .len = 0};
+    Arraylist al = {.arr = a, .cap = size, .len = 0, .truncOpti = 0};
     return al;
 }
 
@@ -45,9 +46,22 @@ void* ALRemove(Arraylist* al) {
         al->len--;                   // decrement the arraylist's length
         void* v = al->arr[al->len];  // copy item before we reset it
         al->arr[al->len] = 0;        // reset whatever data we had there
+        // check if we can shave
+        if (al->len > 0 && al->len <= (int)(al->cap / 2)
+        && al->cap > 2 && al->truncOpti) {
+            al->cap /= 2;
+            // allocate a new underlying array with the new cap
+        void** newArr = (void**)malloc(sizeof(void*) * al->cap);
+        // copy over previous data
+        for (int i = 0; i < al->cap; i++) {
+            newArr[i] = al->arr[i];
+        }
+        free(al->arr);     // free the previous underlying array
+        al->arr = newArr;  // set the free'd pointer to the new array
+        }
         return v;
     }
-    return 0;
+    return NULL;
 }
 
 /*

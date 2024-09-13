@@ -8,19 +8,35 @@
 
 typedef struct Substrings {
     char** substrings;
-    int length;
+    int count;
 } Substrings;
 
 /*
-Splits a string by the specified character
+Splits a string by the specified character at max the specfied amount of time
 */
-Substrings SplitString(char* str, char sep) {
+Substrings SplitNString(char* str, char sep, int amount) {
     char** substrs;
+
+    int sepCount = 0;
+
+    for (int i = 0; i < strlen(str); i++) {
+        if (str[i] == sep) sepCount++;
+    }
+
+    if (amount == 0 || sepCount == 0) {
+        substrs = malloc(sizeof(char*));
+        substrs[0] = str;
+        Substrings out = {.substrings = substrs, .count = 1};
+        return out;
+    }
+
     int splits = 0;
     Arraylist acc = NewArraylist(1);  // arraylist to hold collected characters
     int slen = strlen(str);
     for (int i = 0; i < slen; i++) {
-        if (str[i] == sep) {
+        if (splits == amount) {
+            break;
+        } else if (str[i] == sep) {
             // allocate new string array for the new string
             char** newss = (char**)malloc(sizeof(char*) * (splits + 1));
             for (int j = 0; j < splits; j++) {
@@ -71,11 +87,38 @@ Substrings SplitString(char* str, char sep) {
         FreeArraylist(&acc);  // let go of acc since we don't need it anymore
 
         Substrings out = {.substrings = final,
-                          .length = splits == 0 ? 1 : splits + 1};
+                          .count = splits == 0 ? 1 : splits + 1};
         return out;
     } else {
         Substrings out = {.substrings = substrs,
-                          .length = splits == 0 ? 1 : splits};
+                          .count = splits == 0 ? 1 : splits};
         return out;
     }
+}
+
+/*
+Splits a string by the specified character
+*/
+Substrings SplitString(char* str, char sep) {
+    return SplitNString(str, sep, -1);
+}
+
+/*
+Converts a string to a base 10 integer
+*/
+int StringToInt(char* str) {
+    int sum = 0;
+    int len = strlen(str);
+
+    int place = 1;
+    for (int i = len - 1; i > -1; i--) {
+        if (str[i] < '0' || str[i] > '9')
+            return 0;
+        else if (str[i] == '-')
+            return -sum;
+        sum += (str[i] - 48) * place;
+        place *= 10;
+    }
+
+    return sum;
 }
