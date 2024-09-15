@@ -14,7 +14,7 @@ typedef struct Substrings {
 /*
 Splits a string by the specified character at max the specfied amount of time
 */
-Substrings SplitNString(char* str, char sep, int amount) {
+Substrings SplitNString(const char* str, const char sep, const int amount) {
     char** substrs;
 
     int sepCount = 0;
@@ -24,8 +24,8 @@ Substrings SplitNString(char* str, char sep, int amount) {
     }
 
     if (amount == 0 || sepCount == 0) {
-        substrs = malloc(sizeof(char*));
-        substrs[0] = str;
+        substrs = (char**)malloc(sizeof(char*));
+        substrs[0] = (char*)str;
         Substrings out = {.substrings = substrs, .count = 1};
         return out;
     }
@@ -99,14 +99,14 @@ Substrings SplitNString(char* str, char sep, int amount) {
 /*
 Splits a string by the specified character
 */
-Substrings SplitString(char* str, char sep) {
+Substrings SplitString(const char* str, const char sep) {
     return SplitNString(str, sep, -1);
 }
 
 /*
 Converts a string to a base 10 integer
 */
-int StringToInt(char* str) {
+int StringToInt(const char* str) {
     int sum = 0;
     int len = strlen(str);
 

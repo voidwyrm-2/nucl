@@ -16,9 +16,12 @@ typedef struct Arraylist {
 /*
 Creates a new arraylist of the specified size
 */
-Arraylist NewArraylist(int size) {
+Arraylist NewArraylist(const int size) {
     // allocate new underlying array
-    void** a = (void**)malloc(sizeof(int) * size);
+    void** a = NULL;
+    if (size > 0) {
+        a = (void**)malloc(sizeof(void*) * size);
+    }
     Arraylist al = {.arr = a, .cap = size, .len = 0, .truncOpti = 0};
     return al;
 }
@@ -47,17 +50,17 @@ void* ALRemove(Arraylist* al) {
         void* v = al->arr[al->len];  // copy item before we reset it
         al->arr[al->len] = 0;        // reset whatever data we had there
         // check if we can shave
-        if (al->len > 0 && al->len <= (int)(al->cap / 2)
-        && al->cap > 2 && al->truncOpti) {
+        if (al->len > 0 && al->len <= (int)(al->cap / 2) && al->cap > 2 &&
+            al->truncOpti) {
             al->cap /= 2;
             // allocate a new underlying array with the new cap
-        void** newArr = (void**)malloc(sizeof(void*) * al->cap);
-        // copy over previous data
-        for (int i = 0; i < al->cap; i++) {
-            newArr[i] = al->arr[i];
-        }
-        free(al->arr);     // free the previous underlying array
-        al->arr = newArr;  // set the free'd pointer to the new array
+            void** newArr = (void**)malloc(sizeof(void*) * al->cap);
+            // copy over previous data
+            for (int i = 0; i < al->cap; i++) {
+                newArr[i] = al->arr[i];
+            }
+            free(al->arr);     // free the previous underlying array
+            al->arr = newArr;  // set the free'd pointer to the new array
         }
         return v;
     }
@@ -87,12 +90,12 @@ void ALAdd(Arraylist* al, void* value) {
 /*
 Gets the item at the specified index
 */
-void* ALGetIndex(Arraylist* al, int index) { return al->arr[index]; }
+void* ALGetIndex(Arraylist* al, const int index) { return al->arr[index]; }
 
 /*
 Sets the item at the specified index to the given value
 */
-void ALSetIndex(Arraylist* al, void* value, int index) {
+void ALSetIndex(Arraylist* al, void* value, const int index) {
     al->arr[index] = value;
 }
 

@@ -3,19 +3,15 @@
 #include <stdlib.h>
 
 typedef struct Result {
-    void* res;
-    char* err;
+    const void* res;
+    const char* err;
 } Result;
 
-Result NewResult(void* r, char* e) {
+Result NewResult(const void* r, const char* e) {
     Result result = {.res = r, .err = e};
     return result;
 }
 
-Result NewErrResult(char* e) {
-    return NewResult(NULL, e);
-}
+Result NewErrResult(const char* e) { return NewResult(NULL, e); }
 
-Result NewSuccessResult(void* r) {
-    return NewResult(r, NULL);
-}
+Result NewSuccessResult(const void* r) { return NewResult(r, NULL); }
